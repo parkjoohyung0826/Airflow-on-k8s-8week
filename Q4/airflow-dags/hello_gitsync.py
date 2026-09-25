@@ -1,13 +1,7 @@
 from datetime import datetime
 
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-
-
-def hello():
-    print("Hello from GitSync")
-    print("name=박주형")
-    print("GitHub DAG sync success")
+from airflow.operators.bash import BashOperator
 
 
 with DAG(
@@ -18,7 +12,11 @@ with DAG(
     tags=["q4", "gitsync"],
 ) as dag:
 
-    hello_task = PythonOperator(
+    hello_task = BashOperator(
         task_id="hello_task",
-        python_callable=hello,
+        bash_command="""
+        echo "Hello from GitSync"
+        echo "name=박주형"
+        echo "GitHub DAG sync success"
+        """,
     )
